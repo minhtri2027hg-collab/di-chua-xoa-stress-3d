@@ -1,287 +1,46 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="build" content="0ff047f64e" />
-  <meta name="theme-color" content="#1e241e" />
-  <title>Đi Chùa Xõa Stress 3D – Sansa UI × 12 Nhân Vật 3D Naruto &amp; One Piece</title>
-  <meta name="description" content="Đi chùa lễ Phật kết hợp xõa stress ngay trong chánh điện: Sàn DJ Chú Đại Bi Remix, Đấm Bốc Xả Nghiệp, Đại Mõ Phản Lực cùng 12 nhân vật 3D Naruto & One Piece." />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="stylesheet" href="./css/app.css" />
-  <script>window.__GAME_THEME__ = 'temple'; window.__SANSA_STRESS__ = true;</script>
-  <script src="./js/file-bundle.js"></script>
-</head>
-<body>
-  <canvas id="scene"></canvas>
-  <div id="joy" class="joy"><div class="knob"></div></div>
-
-  <!-- KHỞI ĐỘNG -->
-  <section id="boot" class="screen boot">
-    <div class="boot-card">
-      <div class="logo"><svg class="i"><use href="#i-wheel"/></svg></div>
-      <h1>Đi Chùa Xõa Stress 3D</h1>
-      <p>Sansa Temple UI/UX · Sàn DJ Ánh Trăng · Đấm Bốc Xả Nghiệp · 12 Nhân Vật 3D</p>
-      <div class="lotus-load"><svg viewBox="0 0 100 100"><g class="petals">
-      <path d="M50 18c9 10 13 21 13 31S58 70 50 76c-8-6-13-17-13-27s4-21 13-31z"/>
-      <path d="M50 76C38 76 22 68 16 50c13-1 24 4 32 13"/><path d="M50 76c12 0 28-8 34-26-13-1-24 4-32 13"/>
-      <path d="M50 76C42 70 28 58 30 38c9 3 15 10 19 20"/><path d="M50 76c8-6 22-18 20-38-9 3-15 10-19 20"/></g>
-      <path class="water" d="M14 84c12 4 24 6 36 6s24-2 36-6"/></svg></div>
-      <div class="bar boot-bar"><i id="bootBar"></i></div>
-      <small id="bootMsg">Đang dựng Chánh điện, Sàn DJ &amp; Võ đài 3D…</small>
-    </div>
-  </section>
-
-  <!-- MÀN CHÀO (người cũ) -->
-  <section id="welcome" class="screen boot hidden">
-    <div class="boot-card">
-      <div class="logo"><svg class="i"><use href="#i-wheel"/></svg></div>
-      <h1>Đi Chùa Xõa Stress 3D</h1>
-      <p id="welcomeText">A Di Đà Phật</p>
-      <button class="btn gold big" id="btnEnter"><svg class="i"><use href="#i-pray"/></svg> Vào Chùa &amp; Xõa Stress</button>
-      <small>Đeo tai nghe để trải nghiệm tiếng mõ thiền &amp; nhạc DJ Chú Đại Bi Remix</small>
-    </div>
-  </section>
-
-  <!-- TẠO NHÂN VẬT -->
-  <section id="setup" class="screen setup hidden">
-    <div class="setup-preview"><canvas id="previewCanvas"></canvas>
-      <div class="preview-badge" id="previewHeroBadge">🦸 Nhân vật 3D: <b>Luffy Gear 5</b> · Kéo ngang để xoay 360°</div>
-      <div class="steps"><i class="on"></i><i></i></div>
-    </div>
-    <div class="setup-card">
-      <!-- bước 1 -->
-      <div class="step" data-step="1">
-        <h2>Chọn máy chủ</h2>
-        <p class="muted">Đi Chùa Xõa Stress 3D – Sansa UI × 12 Nhân Vật 3D Naruto &amp; One Piece.</p>
-        <div class="server-list" id="serverList"></div>
-      </div>
-      <!-- bước 2 -->
-      <div class="step hidden" data-step="2">
-        <h2 id="setupTitle">Chọn Hoá Thân &amp; Trang Phục 3D</h2>
-        <div class="field">12 Nhân Vật Chibi 3D <small class="muted">(vẽ 3D toàn bộ theo ảnh tham khảo)</small>
-          <div class="hero-grid" id="fHeroGrid"></div>
-        </div>
-        <div class="field">Đồ Trang Phục 3D <small class="muted">(Pháp phục Sansa Hàn Quốc · Tay áo rộng · Lễ hội)</small>
-          <div class="outfit-grid" id="fOutfitGrid"></div>
-        </div>
-        <label class="field">Pháp danh / Tên hiển thị trong chùa
-          <span class="name-row"><input id="fName" maxlength="24" placeholder="Đang thỉnh tên…" autocomplete="off" /><button type="button" class="dice name-grant" id="btnDice" title="Thỉnh Phật ban tên khác"><svg class="i"><use href="#i-pray"/></svg> Đổi tên</button></span>
-        </label>
-        <details class="setup-more" id="fMore">
-          <summary>Tuỳ chỉnh thêm: Thiền phái, trang phục phụ &amp; màu da</summary>
-          <div class="field">Giới tính
-            <div class="chips" id="fGender">
-              <button data-v="nam" class="on">Nam</button><button data-v="nu">Nữ</button>
-            </div>
-          </div>
-          <div class="field">Kiểu tóc (khi không đội mũ/tóc tướng)
-            <div class="chips" id="fHair">
-              <button data-v="troc" class="on">Trọc</button><button data-v="ngan">Ngắn</button><button data-v="bui">Búi</button><button data-v="dai">Dài</button>
-            </div>
-          </div>
-          <div class="field">Màu da <div class="swatches" id="fSkin"></div></div>
-          <div class="field" id="fRobeWrap">Áo
-            <div class="chips" id="fRobe">
-              <button data-v="ao_lam" class="on">Áo tràng lam</button><button data-v="ao_xam">Áo chú tiểu xám</button>
-            </div>
-          </div>
-          <div class="field" id="fSectWrap">Thiền phái <small class="muted">(đổi sau mất 200 <svg class="i"><use href="#i-ngoc"/></svg>)</small>
-            <div class="sect-list" id="sectList"></div>
-          </div>
-        </details>
-        <label class="consent" id="consentWrap"><input type="checkbox" id="fConsent" checked> <span>Tôi đồng ý tham gia hành hương văn minh, hoan hỷ và xả stress tích cực cùng bạn bè.</span></label>
-        <button class="link" id="btnRestore">Đã có tài khoản? Đăng nhập</button>
-      </div>
-      <div class="setup-nav">
-        <button class="btn ghost" id="btnPrev">Quay lại</button>
-        <button class="btn gold" id="btnNext">Vào Chùa Ngay</button>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- MÀN CHỜ VÀO CHÙA -->
-  <div id="fullScreen" class="full-screen hidden"><div class="full-card"><div class="full-lotus"><svg class="i"><use href="#i-sen"/></svg></div><h3>Chùa đã đủ người</h3><p id="fullMsg"></p><div id="fullFund" class="full-fund"></div><small id="fullCount"></small><button class="btn gold" id="fullRetry">Thử lại ngay</button></div></div>
-  <div id="idleWarn" class="idle-warn hidden"><b>Bạn còn ở đây không?</b><small id="idleCount"></small><button class="btn gold small" id="idleStay">Tôi vẫn ở đây</button></div>
-  <div id="idleScreen" class="full-screen hidden"><div class="full-card"><div class="full-lotus"><svg class="i"><use href="#i-sen"/></svg></div><h3>Đã tạm rời chùa</h3><p>Bạn đã lâu không thao tác nên hệ thống tạm ngắt kết nối để nhường chỗ cho Phật tử khác.</p><button class="btn gold" id="idleBack">Vào lại chùa</button></div></div>
-  <section id="loader" class="loader hidden">
-    <div class="loader-card">
-      <div class="lotus-load"><svg viewBox="0 0 100 100"><g class="petals">
-      <path d="M50 18c9 10 13 21 13 31S58 70 50 76c-8-6-13-17-13-27s4-21 13-31z"/>
-      <path d="M50 76C38 76 22 68 16 50c13-1 24 4 32 13"/><path d="M50 76c12 0 28-8 34-26-13-1-24 4-32 13"/>
-      <path d="M50 76C42 70 28 58 30 38c9 3 15 10 19 20"/><path d="M50 76c8-6 22-18 20-38-9 3-15 10-19 20"/></g>
-      <path class="water" d="M14 84c12 4 24 6 36 6s24-2 36-6"/></svg></div>
-      <h2 id="ldTitle">Đang về chùa…</h2>
-      <div class="bar"><i id="ldBar"></i></div>
-      <small id="ldStep">Thắp đèn chánh điện</small>
-      <p class="quote" id="ldQuote"></p>
-      <p class="ld-busy hidden" id="ldBusy">Lượng người lên chùa đang tăng đột biến nên máy chủ chưa đáp ứng kịp. Mong đạo hữu thông cảm, chịu khó chờ thêm chút nhé. Nam mô A Di Đà Phật 🙏</p>
-    </div>
-  </section>
-
-  <!-- HƯỚNG DẪN TỪNG BƯỚC -->
-  <div id="coach" class="coach hidden">
-    <div class="coach-hole" id="coachHole"></div>
-    <div class="coach-tip" id="coachTip"><b id="coachTitle"></b><p id="coachText"></p>
-      <div class="coach-nav"><button class="link" id="coachSkip">Bỏ qua</button><span id="coachDots"></span><button class="btn small gold" id="coachNext">Tiếp</button></div></div>
-  </div>
-
-  <!-- HUD -->
-  <div id="hud" class="hud hidden">
-    <button id="ticker" class="ticker hidden" aria-label="Thông báo"><span class="tk-ic">📢</span><span class="tk-win"><span class="tk-txt" id="tickerTxt"></span></span></button>
-    <div class="hud-top">
-      <button id="meChip" class="me-chip">
-        <span class="me-ava" id="meAva"></span>
-        <span class="me-info"><b id="meName">…</b><small id="meTitle"></small><i class="xp"><i id="meXp"></i></i></span>
-        <span class="me-lv" id="meLv">1</span>
-      </button>
-      <div class="zoom-btns"><button id="btnZoomIn" title="Phóng to" aria-label="Phóng to">+</button><button id="btnZoomOut" title="Thu nhỏ" aria-label="Thu nhỏ">−</button></div>
-      <div class="top-right"><button class="help-btn ui-toggle" id="btnUi" title="Thu gọn menu" aria-label="Thu gọn menu"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button><div class="wallet" id="wallet"><span><svg class="i"><use href="#i-sen"/></svg> <b id="wSen">0</b></span><span><svg class="i"><use href="#i-ngoc"/></svg> <b id="wNgoc">0</b></span></div><button class="help-btn hidden" id="btnFull" title="Toàn màn hình" aria-label="Toàn màn hình"></button><button class="help-btn mail-btn" id="btnQue" title="Gieo quẻ" aria-label="Gieo quẻ"><svg class="i"><use href="#i-story"/></svg><i class="mail-badge hidden" id="queBadge"></i></button><button class="help-btn mail-btn" id="btnWheel" title="Vòng quay lộc" aria-label="Vòng quay lộc"><svg class="i"><use href="#i-gift"/></svg><i class="mail-badge hidden" id="wheelBadge"></i></button><button class="help-btn mail-btn" id="btnMail" title="Hòm thư" aria-label="Hòm thư"><svg class="i"><use href="#i-mail"/></svg><i class="mail-badge hidden" id="mailBadge"></i></button><button class="help-btn donate-btn" id="btnDonate" title="Ủng hộ đội ngũ phát triển" aria-label="Ủng hộ"><svg class="i"><use href="#i-heart"/></svg></button><button class="help-btn" id="btnShare" title="Chia sẻ" aria-label="Chia sẻ"><svg class="i"><use href="#i-share"/></svg></button><button class="help-btn" id="btnHelp" title="Cách chơi" aria-label="Cách chơi">?</button></div>
-    </div>
-    <div class="hud-temple">
-      <button id="tName" class="tname">Chánh điện</button>
-      <button id="btnOut" class="out-btn hidden"></button>
-      <button id="btnChore" class="out-btn chore-btn hidden"><svg class="i"><use href="#i-spark"/></svg> Công quả</button>
-      <span id="tOnline" title="Người thật đang online"><i class="dot"></i> 1 đang online</span>
-      <button id="btnDjTrack" class="sansa-radio" title="Đài phát thanh Ánh Trăng (Sansa Radio) – Chạm để đổi nhạc DJ / Lo-Fi / Thiền">
-        <span class="sr-ic">🎵</span>
-        <span class="sr-marquee"><span id="djTrackLabel">Đài Ánh Trăng: Nhạc Thiền Chánh Điện · Chạm để bật DJ Remix</span></span>
-      </button>
-      <span id="sessPill" class="sess hidden"></span>
-      <span id="evBanner" class="ev hidden"></span>
-      <span id="buffBadge" class="buff hidden"></span>
-    </div>
-    <!-- THANH ĐO ÁP LỰC & COMBO XẢ STRESS (SANSA GAME DESIGN) -->
-    <div class="stress-widget" id="stressWidget">
-      <div class="sw-head">
-        <span id="stressStatus">🔥 Áp lực trần gian: <b id="stressPct">75%</b></span>
-        <span id="comboBadge" class="combo-badge hidden">⚡ COMBO x0</span>
-      </div>
-      <div class="sw-track"><i id="stressFill" style="width:75%"></i></div>
-    </div>
-    <div class="custom-bar" id="customBar">
-      <button data-zone="hall" class="cb-pill on" title="Về giữa Chánh điện lễ Phật">🏯 Trong Chánh Điện</button>
-      <button data-zone="dj" class="cb-pill cb-dj" title="Ra Sàn DJ ngoài sân chùa quẩy Chú Đại Bi Remix">🎧 Sàn DJ (Ngoài Sân)</button>
-      <button data-zone="boxing" class="cb-pill cb-box" title="Ra Võ Đài Đấm Bốc ngoài sân chùa xả giận vào 5 Bao Cát Nghiệp Chướng">🥊 Đấm Bốc (Ngoài Sân)</button>
-      <button data-zone="muyu" class="cb-pill cb-muyu" title="Ra Đại Mõ Phản Lực ngoài sân chùa gõ liên thanh tích Combo">🥁 Đại Mõ (Ngoài Sân)</button>
-      <button id="btnHeroSwitch" class="cb-pill cb-hero" title="Đổi ngay giữa 12 Nhân Vật 3D &amp; 8 Bộ Trang Phục Sansa Hàn Quốc">👘 Tướng &amp; Trang Phục 3D</button>
-      <button id="btnAmbience" class="cb-pill" title="Đổi không khí / thời gian trong chùa">☀️ Ban ngày</button>
-      <button id="btnRoomShare" class="cb-pill" title="Tạo phòng riêng &amp; gửi link rủ bạn bè vào cùng chùa">👥 Phòng bạn bè</button>
-    </div>
-    <nav class="side-menu">
-      <button data-sheet="quests" title="Nhiệm vụ"><span><svg class="i"><use href="#i-scroll"/></svg></span><i class="badge hidden" id="qBadge"></i><em>Nhiệm vụ</em></button>
-      <button data-sheet="bag" title="Túi đồ"><span><svg class="i"><use href="#i-bag"/></svg></span><em>Túi đồ</em></button>
-      <button data-sheet="shop" title="Cửa hàng"><span><svg class="i"><use href="#i-shop"/></svg></span><em>Cửa hàng</em></button>
-      <button data-sheet="community" title="Cộng đồng"><span><svg class="i"><use href="#i-users"/></svg></span><i class="badge hidden" id="cBadge"></i><em>Cộng đồng</em></button>
-      <button data-sheet="rank" title="Xếp hạng"><span><svg class="i"><use href="#i-trophy"/></svg></span><em>Xếp hạng</em></button>
-      <button data-sheet="map" title="Bản đồ chùa"><span><svg class="i"><use href="#i-map"/></svg></span><i class="badge dot hidden" id="mapDot"></i><em>Bản đồ chùa</em></button>
-      <button data-sheet="guide" title="Hướng dẫn tu tập"><span><svg class="i"><use href="#i-book"/></svg></span><em>Thiền phái</em></button>
-      <button data-sheet="support" title="Góp ý & ủng hộ"><span><svg class="i"><use href="#i-chat"/></svg></span><em>Góp ý</em></button>
-      <button id="btnServer" title="Đổi máy chủ"><span><svg class="i"><use href="#i-server"/></svg></span><em>Máy chủ</em></button>
-      <button id="btnFb" title="Cộng đồng Facebook"><span><svg class="i"><use href="#i-fb"/></svg></span><em>Facebook</em></button>
-      <button data-sheet="settings" title="Cài đặt"><span><svg class="i"><use href="#i-gear"/></svg></span><em>Cài đặt</em></button>
-    </nav>
-    <aside id="wishDock" class="wish-dock hidden" aria-label="Đèn nguyện">
-      <header><span class="wd-lamp"><svg class="i"><use href="#i-lantern"/></svg></span><div><b>Đèn nguyện</b><small id="wdCount"></small></div>
-        <button id="wdClose" class="wd-x" title="Tắt khung Đèn nguyện" aria-label="Tắt khung Đèn nguyện"><svg class="i"><use href="#i-close"/></svg></button></header>
-      <div class="wd-tabs"><button data-wd="temple" class="on">Chùa này</button><button data-wd="all">Tất cả chùa</button><button data-wd="act">Hoạt động</button></div>
-      <div id="wdList" class="wd-list"></div>
-      <button id="wdRelease" class="btn gold wd-release"><svg class="i"><use href="#i-lantern"/></svg> Thả đèn nguyện</button>
-    </aside>
-    <button id="wdOpen" class="wd-open hidden" title="Mở khung Đèn nguyện"><svg class="i"><use href="#i-lantern"/></svg> Đèn nguyện</button>
-    <p class="guide" id="guide">Kéo trái để đi · Vuốt phải để xoay · Chạm bồ đoàn để ngồi</p>
-
-    <div id="quyBar" class="quy-bar hidden"><b>Bạn đang là ngạ quỷ</b><small>Đứng yên nghe kinh để trở lại. Đi lại là ngừng tính.</small><div class="fund-track"><i id="quyFill"></i></div><small id="quyLeft"></small><button id="quyListen" class="btn small gold">Nghe kinh</button></div>
-    <div class="ctx-wrap"><button id="btnCtx" class="ctx hidden">Ngồi xuống</button></div>
-    <div class="actions">
-      <button id="btnBow" class="act"><span><svg class="i"><use href="#i-bow"/></svg></span><em id="bowLabel">Lạy Phật</em></button>
-      <button id="btnDjDance" class="act act-stress act-dj"><span>🎧</span><em id="djDanceLabel">Quẩy DJ</em></button>
-      <button id="btnPunch" class="act act-stress act-punch"><span>🥊</span><em>Đấm Xả Giận</em></button>
-      <button id="btnHyperMuyu" class="act act-stress act-muyu"><span>🥁</span><em>Gõ Mõ Combo</em></button>
-      <button id="btnBeads" class="act"><span><svg class="i"><use href="#i-beads"/></svg></span><em>Tràng hạt</em></button>
-      <button id="btnChant" class="act"><span><svg class="i"><use href="#i-drum"/></svg></span><em>Tụng kinh</em></button>
-      <button id="btnMeditate" class="act"><span><svg class="i"><use href="#i-meditate"/></svg></span><em>Thiền</em></button>
-      <button id="btnOffer" class="act"><span><svg class="i"><use href="#i-offer"/></svg></span><em>Dâng lễ</em></button>
-    </div>
-    <div id="offerMenu" class="pop hidden">
-      <button data-offer="huong_tram"><svg class="i"><use href="#i-incense"/></svg> Thắp hương <b data-qty="huong_tram"></b></button>
-      <button data-offer="nen_sap"><svg class="i"><use href="#i-candle"/></svg> Thắp nến <b data-qty="nen_sap"></b></button>
-      <button data-offer="hoa_dang"><svg class="i"><use href="#i-flower"/></svg> Dâng hoa <b data-qty="hoa_dang"></b></button>
-      <button data-offer="den_hoa_dang"><svg class="i"><use href="#i-lantern"/></svg> Thả đèn hoa đăng <b data-qty="den_hoa_dang"></b></button>
-      <button data-offer="bell"><svg class="i"><use href="#i-bell"/></svg> Thỉnh chuông</button>
-    </div>
-  </div>
-
-  <!-- TRÀNG HẠT -->
-  <section id="beadsView" class="beads hidden">
-    <canvas id="beadsCanvas"></canvas>
-    <button class="pill back" id="btnBeadsBack"><svg class="i"><use href="#i-back"/></svg> Quay lại</button>
-    <div class="bead-count">
-      <div><b id="beadNum">0</b> <span>/ 108</span></div>
-      <small id="beadRound">Vòng thứ nhất</small>
-    </div>
-    <p class="bead-hint">Chạm hoặc vuốt xuống để lần hạt<br /><span id="beadGain"></span></p>
-  </section>
-
-  <!-- TỤNG KINH, GÕ MÕ -->
-  <div id="bondBox" class="bond-box hidden"><div class="bond-info"><b id="bondName"></b> <span id="bondRank"></span></div><div class="bond-bar"><i id="bondFill"></i></div><button class="btn small gold" id="bondBtn">Kết duyên</button></div>
-  <section id="wheelView" class="wheel-view hidden">
-    <button class="pill back" id="btnWheelBack"><svg class="i"><use href="#i-back"/></svg> Quay lại</button>
-    <div class="wheel-box" id="wheelBox"></div>
-  </section>
-
-  <section id="chantView" class="chant hidden">
-    <button class="pill back" id="btnChantBack"><svg class="i"><use href="#i-back"/></svg> Quay lại</button>
-    <div class="chant-pick" id="chantPick"></div>
-    <p class="chant-note" id="chantNote"></p>
-    <div class="chant-lines" id="chantLines"></div>
-    <div class="chant-foot">
-      <div class="chant-count"><b id="chantNum">0</b><span id="chantOf"> / 0</span><small id="chantGain"></small></div>
-      <button class="mo" id="btnMo" aria-label="Gõ mõ"><svg viewBox="0 0 120 100" aria-hidden="true"><defs><radialGradient id="moG" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#c47a3a"/><stop offset=".6" stop-color="#8a4a1e"/><stop offset="1" stop-color="#4a2410"/></radialGradient></defs><ellipse cx="60" cy="58" rx="50" ry="36" fill="url(#moG)"/><path d="M18 62c14 12 70 12 84 0" fill="none" stroke="#2a1408" stroke-width="5" stroke-linecap="round"/><path d="M34 34c14-9 38-9 52 0" fill="none" stroke="#e0a868" stroke-width="2.5" stroke-linecap="round" opacity=".55"/><circle cx="60" cy="20" r="7" fill="#6a3616"/></svg></button>
-      <div class="chant-auto">
-        <label><input type="checkbox" id="chantVoice" checked> Giọng đọc (AI)</label>
-        <label><input type="checkbox" id="chantAuto"> Mõ tự động</label>
-        <label class="chant-tempo">Nhịp <input type="range" id="chantTempo" min="40" max="110" value="66"></label>
-        <small>Tự tay gõ mới có công đức từng tiếng</small>
-      </div>
-    </div>
-  </section>
-
-  <!-- THIỀN -->
-  <section id="medView" class="meditate hidden">
-    <div class="med-pick" id="medPick">
-      <h2>Thiền định</h2>
-      <p>Ngồi thẳng lưng, thả lỏng vai, theo dõi hơi thở.</p>
-      <div class="chips big" id="medDur">
-        <button data-m="5" class="on">5 phút</button><button data-m="10">10 phút</button><button data-m="20">20 phút</button><button data-m="30">30 phút</button><button data-m="0">Tự do</button>
-      </div>
-      <div class="row"><button class="btn ghost" id="medCancel">Để sau</button><button class="btn gold" id="medStart">Bắt đầu</button></div>
-    </div>
-    <div class="med-run hidden" id="medRun">
-      <div class="breath"><i></i><span id="breathText">Hít vào…</span></div>
-      <div class="med-time" id="medTime">00:00</div>
-      <p class="muted" id="medInfo"></p>
-      <button class="btn ghost" id="medStop">Xả thiền</button>
-    </div>
-  </section>
-
-  <!-- BOTTOM SHEET -->
-  <div id="sheet" class="sheet hidden">
-    <div class="sheet-card">
-      <div class="sheet-head"><h3 id="sheetTitle"></h3><button class="x" id="sheetClose"><svg class="i"><use href="#i-close"/></svg></button></div>
-      <div class="tabs" id="sheetTabs"></div>
-      <div class="sheet-body" id="sheetBody"></div>
-    </div>
-  </div>
-
-  <!-- MODAL -->
-  <div id="modal" class="modal hidden"><div class="modal-card" id="modalCard"></div></div>
-
-  <div id="lanternLayer" class="lantern-layer"></div>
-  <div id="floaters" class="floaters"></div>
-  <div id="toast" class="toast"></div>
-</body>
-</html>
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#234c3b"><title>Miền Tây Mơ</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#1c4336;color:#213c2d;font:14px system-ui,sans-serif}#app{max-width:980px;margin:auto;min-height:100dvh;background:#dff0ce;padding:10px}header,.panel{background:#fff5d9;border:3px solid #426447;border-radius:13px;padding:10px;box-shadow:0 4px #31543c}header{display:flex;justify-content:space-between;align-items:center;gap:8px}h1{font-size:clamp(20px,5vw,29px);margin:0;color:#315d3f}header small,.muted{color:#68816a}.stats{display:flex;gap:6px;flex-wrap:wrap}.pill{background:#e8f1d5;border:2px solid #8ca779;border-radius:18px;padding:5px 9px;font-weight:850}#scene{position:relative;margin:11px auto 8px;border:4px solid #426447;border-radius:13px;overflow:hidden;background:#8fca79;box-shadow:0 5px #31543c}canvas{width:100%;height:auto;display:block;image-rendering:pixelated;touch-action:pan-y}#hint{position:absolute;top:7px;left:50%;transform:translateX(-50%);background:#fff5d9;border:2px solid #426447;border-radius:10px;padding:6px 10px;font-weight:800;font-size:12px;white-space:nowrap;max-width:95%;overflow:hidden;text-overflow:ellipsis;pointer-events:none}.panel{margin-top:9px}.title{font-weight:900;color:#315d3f;margin-bottom:8px}.toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}button{border:2px solid #426447;border-radius:10px;background:#f2d77f;color:#294b34;font-weight:850;padding:10px 5px;box-shadow:0 3px #31543c;font-size:13px;cursor:pointer}button:active{transform:translateY(2px);box-shadow:0 1px #31543c}button.alt{background:#dcebc9}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:9px}.info{font-size:13px;line-height:1.8}.bar{height:10px;background:#d5dfc5;border:1px solid #78936e;border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:#e2b94d;width:0}.orders{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.order{background:#edf4dc;border:2px solid #9caf85;border-radius:9px;padding:8px;font-size:12px}.order b{display:block;font-size:13px}.order button{margin-top:5px;width:100%;padding:7px}.modal{position:fixed;inset:0;background:#14271dbb;display:none;align-items:center;justify-content:center;padding:16px}.modal.open{display:flex}.modalbox{max-width:440px;width:100%;background:#fff5d9;border:3px solid #426447;border-radius:15px;padding:15px}.modalbox h2{margin:0 0 8px;color:#315d3f}.row{display:flex;gap:7px;flex-wrap:wrap}.row button{flex:1}.muted{font-size:12px}@media(min-width:650px){#scene{max-width:900px}.toolbar{grid-template-columns:repeat(8,1fr)}}
+</style></head><body><div id="app">
+<header><div><h1>🌴 MIỀN TÂY MƠ</h1><small>Nông trại sông nước · pixel isometric</small></div><div class="stats"><span class="pill">🪙 <b id="coins">120</b></span><span class="pill">💎 <b id="gems">5</b></span><span class="pill">⭐ Lv.<b id="level">1</b></span></div></header>
+<div id="scene"><canvas id="farm" width="720" height="500"></canvas><div id="hint">Chạm một ô đất để chọn, rồi gieo trồng 🌱</div></div>
+<section class="panel"><div class="title">🧑‍🌾 Công việc nông trại</div><div class="toolbar"><button id="plant">🌱 Gieo hạt</button><button id="water">💧 Tưới nước</button><button id="harvest">🧺 Thu hoạch</button><button id="build">🪵 Mở rộng đất</button><button id="market">🛒 Chợ quê</button><button id="orders">📦 Đơn hàng</button><button id="craft">🥤 Làm trà tắc</button><button id="sleep" class="alt">🌙 Qua ngày</button></div><p class="muted">Chạm ô đất để chọn. Cây lớn theo thời gian thực; tưới giúp tăng tốc. Bán nông sản để kiếm xu và lên cấp.</p></section>
+<div class="bottom"><section class="panel"><div class="title">🎒 Kho nông trại</div><div class="info" id="inventory"></div></section><section class="panel"><div class="title">📈 Tiến độ</div><div class="info">⭐ XP: <b id="xp">0</b> / <span id="nextxp">50</span><div class="bar"><i id="xpbar"></i></div><div>🌾 Ruộng đã mở: <b id="land">6</b> ô</div><div>🏡 Nhà lá · Quầy trà tắc</div><div>🐈 Mơ & Moka</div></div></section></div>
+<section class="panel"><div class="title">📦 Đơn hàng hôm nay</div><div class="orders" id="orderList"></div></section><p class="muted" style="text-align:center">Miền Tây Mơ · Tự lưu tiến trình trên thiết bị.</p></div>
+<div class="modal" id="modal"><div class="modalbox" id="modalbox"></div></div>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),c=$('farm'),ctx=c.getContext('2d');
+const S={coins:120,gems:5,level:1,xp:0,day:1,selected:0,inv:{seed:8,rice:0,veg:0,corn:0,fruit:0,lime:0,tea:0},plots:Array.from({length:16},(_,i)=>({open:i<6,crop:null,planted:0,water:0}))};
+const C={rice:{n:'Lúa',e:'🌾',cost:3,t:25,sell:8,xp:3},veg:{n:'Rau cải',e:'🥬',cost:4,t:30,sell:11,xp:4},corn:{n:'Bắp',e:'🌽',cost:6,t:45,sell:16,xp:5},fruit:{n:'Dưa hấu',e:'🍉',cost:8,t:60,sell:22,xp:7}};
+const defs=[{n:'Bữa cơm quê',k:'rice',q:3,r:35,x:12},{n:'Rổ rau xanh',k:'veg',q:2,r:32,x:12},{n:'Bắp luộc',k:'corn',q:2,r:42,x:15},{n:'Trái cây miệt vườn',k:'fruit',q:2,r:55,x:18}];let orders=[defs[0],defs[1]];
+const pos=i=>{let x=i%4,y=Math.floor(i/4);return{x:360+(x-y)*65,y:235+(x+y)*32}};
+function poly(p,col){ctx.fillStyle=col;ctx.beginPath();p.forEach((v,i)=>i?ctx.lineTo(...v):ctx.moveTo(...v));ctx.closePath();ctx.fill()}
+function tile(x,y,w,h,col){poly([[x,y],[x+w,y+h/2],[x,y+h],[x-w,y+h/2]],col);poly([[x-w,y+h/2],[x,y+h],[x,y+h+13],[x-w,y+h/2+13]],'#78553a');poly([[x,y+h],[x+w,y+h/2],[x+w,y+h/2+13],[x,y+h+13]],'#79543b')}
+function label(t,x,y,s=12){ctx.font=`bold ${s}px monospace`;ctx.textAlign='center';ctx.fillStyle='#284a32';ctx.fillText(t,x,y)}
+function draw(){ctx.clearRect(0,0,720,500);ctx.fillStyle='#9bd181';ctx.fillRect(0,0,720,500);for(let i=0;i<80;i++){ctx.fillStyle=i%2?'#83c46e':'#a8d88a';ctx.fillRect(i*79%710,i*43%480,3,5)}
+poly([[0,380],[200,315],[410,420],[205,500],[0,430]],'#65b9c1');for(let i=0;i<8;i++){ctx.fillStyle='#a7e0d6';ctx.fillRect(20+i*21,405-i*4,18,3)}
+function tree(x,y){ctx.fillStyle='#795238';ctx.fillRect(x-5,y+10,11,32);ctx.fillStyle='#3d8749';ctx.fillRect(x-23,y-8,45,28);ctx.fillStyle='#5aa957';ctx.fillRect(x-16,y-20,32,25)}tree(92,100);tree(610,100);tree(650,255);
+poly([[410,92],[540,150],[410,210],[280,150]],'#9c563c');poly([[280,150],[410,210],[410,290],[280,228]],'#e4c48b');poly([[410,210],[540,150],[540,228],[410,290]],'#c89b68');poly([[266,148],[410,78],[554,148],[410,218]],'#7d4035');ctx.fillStyle='#70472f';ctx.fillRect(385,223,42,67);ctx.fillStyle='#8fc8ce';ctx.fillRect(300,185,30,28);ctx.fillRect(485,185,30,28);
+S.plots.forEach((p,i)=>{let q=pos(i),x=q.x,y=q.y;tile(x,y,45,25,p.open?'#8e6a42':'#b3c69b');if(p.crop){let cp=C[p.crop],a=(Date.now()-p.planted)/(cp.t*1000),st=Math.min(3,Math.floor(a*4)+(p.water?1:0));for(let j=0;j<Math.min(5,st+1);j++){ctx.fillStyle=st>=3?'#d8b74c':'#3f9a4d';ctx.fillRect(x-15+j*7,y+5-Math.abs(2-j)*2,5,12+st*2)}if(st>=3)label(cp.e,x,y-13,17)}if(i===S.selected){ctx.strokeStyle='#ffe36b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y-4);ctx.lineTo(x+49,y+20);ctx.lineTo(x,y+45);ctx.lineTo(x-49,y+20);ctx.closePath();ctx.stroke()}});
+poly([[85,265],[150,232],[218,267],[152,302]],'#53aeb7');label('🪷',147,267,24);label('🐟',190,281,17);tile(565,285,45,28,'#b65b40');ctx.fillStyle='#874b31';ctx.fillRect(555,286,22,55);ctx.fillRect(600,286,22,55);ctx.fillStyle='#f5d47f';ctx.fillRect(550,271,72,14);label('TRÀ TẮC',586,268,11);label('VƯỜN RAU',180,196,11);label('NHÀ LÁ',410,65,12);
+ctx.fillStyle='#e8b18b';ctx.fillRect(462,299,12,12);ctx.fillStyle='#3c875b';ctx.fillRect(459,311,18,19);ctx.fillStyle='#171c1b';ctx.fillRect(500,333,18,10);ctx.fillRect(503,326,12,9);ctx.fillRect(650,324,18,10);ctx.fillRect(653,317,12,9);ctx.fillStyle='#e8d16b';ctx.fillRect(505,329,2,2);ctx.fillRect(512,329,2,2);ctx.fillRect(655,320,2,2);ctx.fillRect(662,320,2,2)}
+function toast(t){$('hint').textContent=t}function xp(n){S.xp+=n;while(S.xp>=S.level*50){S.xp-=S.level*50;S.level++;S.coins+=25;toast('Lên cấp '+S.level+'! Nhận 25 xu thưởng 🎉')}}
+function save(){try{localStorage.setItem('mienTayMoSave',JSON.stringify({S,orders}))}catch(e){}}
+function update(){for(let k of ['coins','gems','level'])$(k).textContent=S[k];$('xp').textContent=S.xp;$('nextxp').textContent=S.level*50;$('xpbar').style.width=S.xp/(S.level*50)*100+'%';$('land').textContent=S.plots.filter(p=>p.open).length;$('inventory').innerHTML=`🌰 Hạt giống: <b>${S.inv.seed}</b><br>🌾 Lúa: <b>${S.inv.rice}</b>　🥬 Rau: <b>${S.inv.veg}</b><br>🌽 Bắp: <b>${S.inv.corn}</b>　🍉 Dưa: <b>${S.inv.fruit}</b><br>🍋 Tắc: <b>${S.inv.lime}</b>　🥤 Trà tắc: <b>${S.inv.tea}</b>`;$('orderList').innerHTML=orders.map((o,i)=>`<div class="order"><b>${o.n}</b>Cần ${o.q} ${C[o.k].n}<br>Thưởng 🪙 ${o.r} · ⭐ ${o.x}<button data-o="${i}">Giao hàng</button></div>`).join('');document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>deliver(+b.dataset.o));draw();save()}
+function modal(s){$('modalbox').innerHTML=s;$('modal').classList.add('open');$('modalbox').querySelectorAll('[data-close]').forEach(b=>b.onclick=()=> $('modal').classList.remove('open'))}
+function chosen(){return S.plots[S.selected]}
+function plant(){let p=chosen();if(!p.open)return toast('Ô đất khóa, hãy mở rộng!');if(p.crop)return toast('Ô đất đang có cây rồi.');let ks=Object.keys(C).filter(k=>S.level>=({rice:1,veg:1,corn:2,fruit:3}[k]));modal('<h2>Chọn hạt giống</h2><div class="row">'+ks.map(k=>`<button data-c="${k}">${C[k].e} ${C[k].n}<br>${C[k].cost} xu</button>`).join('')+'</div><p class="muted">Cây lớn trong khoảng 25 đến 60 giây.</p><button data-close class="alt">Đóng</button>');document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{let k=b.dataset.c;if(S.coins<C[k].cost)return toast('Không đủ xu mua hạt!');S.coins-=C[k].cost;p.crop=k;p.planted=Date.now();p.water=0;$('modal').classList.remove('open');toast('Đã gieo '+C[k].n+'!');update()})}
+function water(){let p=chosen();if(!p.crop)return toast('Ô đất chưa gieo cây.');if(p.water)return toast('Cây đã được tưới.');p.water=1;p.planted-=C[p.crop].t*1000*.2;toast('Đã tưới nước, cây lớn nhanh hơn 💧');update()}
+function harvest(){let p=chosen();if(!p.crop)return toast('Chưa có cây để thu hoạch.');if(Date.now()-p.planted<C[p.crop].t*1000)return toast('Cây chưa chín, chờ thêm nhé!');let k=p.crop;S.inv[k]+=2;S.inv.seed++;xp(C[k].xp);p.crop=null;p.water=0;toast('Thu hoạch 2 '+C[k].n+' và nhận 1 hạt giống!');update()}
+function build(){let i=S.plots.findIndex(p=>!p.open);if(i<0)return toast('Đã mở hết đất thử nghiệm!');let cost=45+S.plots.filter(p=>p.open).length*18;if(S.coins<cost)return toast('Cần '+cost+' xu để mở rộng.');S.coins-=cost;S.plots[i].open=true;S.selected=i;xp(8);toast('Đã khai hoang thêm một ô đất!');update()}
+function deliver(i){let o=orders[i];if(S.inv[o.k]<o.q)return toast('Chưa đủ '+C[o.k].n+' để giao đơn.');S.inv[o.k]-=o.q;S.coins+=o.r;xp(o.x);orders[i]=defs[Math.floor(Math.random()*defs.length)];toast('Giao đơn thành công! 📦');update()}
+function market(){modal('<h2>🛒 Chợ quê</h2><div class="row">'+Object.keys(C).map(k=>`<button data-s="${k}">${C[k].e} ${C[k].n}<br>${C[k].sell} xu/món</button>`).join('')+'</div><button data-close class="alt">Đóng</button>');document.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{let k=b.dataset.s;if(S.inv[k]<1)return toast('Kho chưa có món này.');S.inv[k]--;S.coins+=C[k].sell;xp(2);toast('Đã bán '+C[k].n+'!');update();market()})}
+function craft(){if(S.level<2)return toast('Mở khóa quầy trà tắc ở cấp 2 nhé!');if(S.inv.lime<1||S.coins<1)return toast('Cần 1 quả tắc và 1 xu nguyên liệu.');S.inv.lime--;S.coins--;S.inv.tea++;xp(5);toast('Pha xong một ly trà tắc!');update()}
+$('plant').onclick=plant;$('water').onclick=water;$('harvest').onclick=harvest;$('build').onclick=build;$('market').onclick=market;$('orders').onclick=()=>$('orderList').scrollIntoView({behavior:'smooth'});$('craft').onclick=craft;$('sleep').onclick=()=>{S.day++;S.plots.forEach(p=>{if(p.crop)p.planted-=C[p.crop].t*1000*.12});S.inv.lime++;toast('Ngày '+S.day+': tắc chín thêm một quả. Chúc ngày mới tốt lành!');update()};
+c.addEventListener('pointerdown',e=>{let r=c.getBoundingClientRect(),x=(e.clientX-r.left)*c.width/r.width,y=(e.clientY-r.top)*c.height/r.height,best=-1,bd=1e9;S.plots.forEach((p,i)=>{let q=pos(i),d=Math.abs(x-q.x)/1.3+Math.abs(y-q.y-13);if(d<bd){bd=d;best=i}});if(bd<65){S.selected=best;toast(S.plots[best].open?(S.plots[best].crop?'Đã chọn ô '+(best+1)+': '+C[S.plots[best].crop].n:'Đã chọn ô đất '+(best+1)+'. Chọn Gieo hạt nhé!'):'Ô đất khóa. Bấm Mở rộng đất để khai hoang.');draw()}});
+$('modal').onclick=e=>{if(e.target===$('modal'))$('modal').classList.remove('open')};
+try{let old=JSON.parse(localStorage.getItem('mienTayMoSave'));if(old?.S?.plots?.length===16){Object.assign(S,old.S);orders=old.orders||orders}}catch(e){}update();setInterval(draw,1000);
+})();
+</script></body></html>
